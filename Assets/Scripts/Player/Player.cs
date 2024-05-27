@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     public Transform dropPos;
     private void Awake()
     {
-        CharacterManager.Instacne.Player = this;
+        CharacterManager.Instance.Player = this;
         controller = GetComponent<PlayerController>();
         condition = GetComponent<PlayerCondition>();
         equip = GetComponent<Equipment>();

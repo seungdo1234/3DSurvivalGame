@@ -29,7 +29,7 @@ public class EquipTool : Equip
     {
         if (!attacking)
         {
-            if (CharacterManager.Instacne.Player.condition.UseStamina(useStamina))
+            if (CharacterManager.Instance.Player.condition.UseStamina(useStamina))
             {
                 attacking = true;
                 anim.SetTrigger("Attack");
@@ -50,10 +50,16 @@ public class EquipTool : Equip
 
         if (Physics.Raycast(ray, out hit, attackDistance))
         {
+            Debug.Log(hit.collider.name);
             if (doesGatherResources && hit.collider.TryGetComponent(out Resource resource))
             {
                 resource.Gather(hit.point, hit.normal);
             }
+            else if (doesDealDamage && hit.collider.TryGetComponent(out IDamagable damagable))
+            {
+                damagable.TakePhysicalDamage(damage);
+            }
+            
         }
     }
 }

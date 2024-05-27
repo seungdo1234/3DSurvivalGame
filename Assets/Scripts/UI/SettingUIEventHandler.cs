@@ -12,7 +12,7 @@ public class SettingUIEventHandler : MonoBehaviour
 
     private void Start()
     {
-        CharacterManager.Instacne.Player.onSettingUI += SettingEvent;
+        CharacterManager.Instance.Player.onSettingUI += SettingEvent;
     }
 
     private void SettingEvent()
@@ -23,6 +23,6 @@ public class SettingUIEventHandler : MonoBehaviour
     public void ExitSetting() // 버튼
     {
         settingUI.gameObject.SetActive(false);
-        CharacterManager.Instacne.Player.controller.ControlLocked();
+        CharacterManager.Instance.Player.controller.ControlLocked();
     }
 }

@@ -33,11 +33,11 @@ public class UIInventroy : MonoBehaviour
     private int curEquipIndex;
     private void Start()
     {
-        controller = CharacterManager.Instacne.Player.controller;
-        condition = CharacterManager.Instacne.Player.condition;
-        dropPos = CharacterManager.Instacne.Player.dropPos;
+        controller = CharacterManager.Instance.Player.controller;
+        condition = CharacterManager.Instance.Player.condition;
+        dropPos = CharacterManager.Instance.Player.dropPos;
         controller.onInventory += Toggle;
-        CharacterManager.Instacne.Player.adddItem += AddItem;
+        CharacterManager.Instance.Player.adddItem += AddItem;
         
         inventoryWindow.SetActive(false);
         slots = new ItemSlot[slotPanel.childCount];
@@ -84,7 +84,7 @@ public class UIInventroy : MonoBehaviour
 
     private void AddItem()
     {
-        ItemData data = CharacterManager.Instacne.Player.itemData;
+        ItemData data = CharacterManager.Instance.Player.itemData;
         
         // 아이템이 중복 가능한지 검사
         if (data.canStack)
@@ -94,7 +94,7 @@ public class UIInventroy : MonoBehaviour
             {
                 slot.quantity++;
                 UpdateUI();
-                CharacterManager.Instacne.Player.itemData = null;
+                CharacterManager.Instance.Player.itemData = null;
                 return;
             }
         }
@@ -108,13 +108,13 @@ public class UIInventroy : MonoBehaviour
             emptySlot.item = data;
             emptySlot.quantity = 1;
             UpdateUI();
-            CharacterManager.Instacne.Player.itemData = null;
+            CharacterManager.Instance.Player.itemData = null;
             return;
         }
         
         // 없다면
         ThrowItem(data);
-        CharacterManager.Instacne.Player.itemData = null;
+        CharacterManager.Instance.Player.itemData = null;
     }
 
     private void UpdateUI()
@@ -236,7 +236,7 @@ public class UIInventroy : MonoBehaviour
 
         slots[selectedItemIdx].equipped = true;
         curEquipIndex = selectedItemIdx;
-        CharacterManager.Instacne.Player.equip.EquipNew(selectedItem);
+        CharacterManager.Instance.Player.equip.EquipNew(selectedItem);
         UpdateUI();
         
         SelectItem(selectedItemIdx);
@@ -245,7 +245,7 @@ public class UIInventroy : MonoBehaviour
     private void UnEquip(int index)
     {
         slots[index].equipped = false;
-        CharacterManager.Instacne.Player.equip.UnEquip();
+        CharacterManager.Instance.Player.equip.UnEquip();
         UpdateUI();
 
         if (selectedItemIdx == index)

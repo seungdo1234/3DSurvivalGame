@@ -4,7 +4,7 @@ public class CharacterManager : MonoBehaviour
 {
     private static CharacterManager _instance;
 
-    public static CharacterManager Instacne
+    public static CharacterManager Instance
     {
         get
         {

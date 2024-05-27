@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started)
         {
-            CharacterManager.Instacne.Player.onSettingUI?.Invoke();
+            CharacterManager.Instance.Player.onSettingUI?.Invoke();
             ControlLocked();
         }
     }

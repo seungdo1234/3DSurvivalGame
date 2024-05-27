@@ -11,6 +11,6 @@ public class UICondition  : MonoBehaviour
 
     private void Start()
     {
-        CharacterManager.Instacne.Player.condition.uiCondition = this;
+        CharacterManager.Instance.Player.condition.uiCondition = this;
     }
 }

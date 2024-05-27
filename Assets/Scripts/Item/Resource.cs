@@ -15,7 +15,7 @@ public class Resource : MonoBehaviour
         {
             if (capacy <= 0) break; // 자원을 다 캤다면
             capacy -= 1;
-            Instantiate(itemToGive.dropPrefab, hitPoint + Vector3.up, Quaternion.LookRotation(hitNormal, Vector3.up));
+            Instantiate(itemToGive.dropPrefab, hitPoint + Vector3.up, Quaternion.LookRotation(hitNormal, Vector3.right));
         }
     }
 }
