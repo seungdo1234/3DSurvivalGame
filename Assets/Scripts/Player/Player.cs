@@ -2,19 +2,27 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Player : MonoBehaviour
 {
-    private PlayerController controller;
+    public PlayerController controller;
     public PlayerCondition condition;
-
+    public Equipment equip;
+    
     public ItemData itemData;
     public Action adddItem;
+
+    public Action onSettingUI;
+
+    [FormerlySerializedAs("dropItem")]
+    public Transform dropPos;
     private void Awake()
     {
         CharacterManager.Instacne.Player = this;
         controller = GetComponent<PlayerController>();
         condition = GetComponent<PlayerCondition>();
+        equip = GetComponent<Equipment>();
     }
 
     // Start is called before the first frame update

@@ -37,4 +37,8 @@ public class ItemData : ScriptableObject
 
    [Header("# Stacking")] 
    public ItemDataConsumable[] consumables;
+   
+   
+   [Header("# Equip")] 
+   public GameObject equipPrefab;
 }

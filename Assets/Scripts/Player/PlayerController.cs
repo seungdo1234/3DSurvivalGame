@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("# Movement")] 
+    public float baseMoveSpeed;
     public float moveSpeed;
+    public float runMoveSpeed;
     public float jumpPower;
     private Vector2 curMovementInput;
     public LayerMask groundLayerMask;
@@ -18,11 +21,14 @@ public class PlayerController : MonoBehaviour
     private float camCurXRot; // 마우스의 델타 값 저장
     public float lookSensitivity; // 회전 민감도
     private Vector2 mouseDelta;
-    
+
+    public Action onInventory;
     private Rigidbody rigid;
 
+    public bool IsControlLock { get; private set; }
     private void Awake()
     {
+        moveSpeed = baseMoveSpeed;
         rigid = GetComponent<Rigidbody>();
     }
 
@@ -34,11 +40,16 @@ public class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
+        if(IsControlLock) return;
+        
         CameraLook();
     }
 
     private void FixedUpdate()
     {
+        
+        if(IsControlLock) return;
+        
         Move();
     }
     
@@ -83,7 +94,7 @@ public class PlayerController : MonoBehaviour
     
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started && IsGrounded())
+        if (!IsControlLock && context.phase == InputActionPhase.Started && IsGrounded())
         {
             rigid.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
         }
@@ -108,4 +119,49 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
+
+    public void OnSetting(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            CharacterManager.Instacne.Player.onSettingUI?.Invoke();
+            ControlLocked();
+        }
+    }
+
+    public void OnRun(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started) 
+        {
+            moveSpeed = runMoveSpeed;
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            moveSpeed = baseMoveSpeed;
+        }
+    }
+
+    public void OnInventory(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started) 
+        {
+            onInventory?.Invoke();
+            ControlLocked();
+        }
+    }
+    public void ControlLocked()
+    {
+        IsControlLock = !IsControlLock;
+
+        if (IsControlLock)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            rigid.velocity = Vector3.zero;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
 }
+
